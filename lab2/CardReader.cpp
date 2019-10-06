@@ -1,5 +1,9 @@
 #include "CardReader.hpp"
 
+CardReader::CardReader() {};
+
+CardReader::~CardReader(){};
+
 int CardReader::getCardNumber()
 {
 	std::string swipe_path = "/dev/swipe";
@@ -14,6 +18,7 @@ int CardReader::getCardNumber()
 
     // read value  
     read_swipe >> this->card_number_str;
+    return 1;
 }
 
 int CardReader::validateCardNumber()
@@ -43,10 +48,14 @@ int CardReader::validateCardNumber()
 	if (partial_checksum + card_number_digits[15] % 10 == 0)
 	{
 		std::cout << card_number_str;
+		card_number_str.clear();
+		return 1;
 	}
 	else
 	{
 		logError();
+		card_number_str.clear();
+		return 2;
 	}
 }
 
@@ -66,4 +75,10 @@ int CardReader::logError()
     std::time_t error_timestamp = std::chrono::system_clock::to_time_t(error_timestamp_chrono);
 
     log_file << "Wrong card number: " << this->card_number_str << " at " << error_timestamp << std::endl;
+    return 1;
+}
+
+std::string CardReader::getCardNumberStr()
+{
+	return this->card_number_str;
 }

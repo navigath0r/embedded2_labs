@@ -14,15 +14,18 @@
 class CardReader
 {
 private:
-	std::string card_number_str = 0;
+	std::string card_number_str;
 
-	int getCardNumber();
-	int validateCardNumber();
+	
 	int logError();
 
 public:
 	CardReader();
 	~CardReader();
+
+	std::string getCardNumberStr();
+	int getCardNumber();
+	int validateCardNumber();
 };
 
 #endif
